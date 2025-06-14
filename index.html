@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Para mi hermosa Grachi! ❤️</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================= */
+        /* --- 1. ESTILOS GENERALES Y RESET --- */
+        /* ========================================= */
+        /* Asegurarse de que HTML y BODY ocupen el 100% del viewport */
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0; /* Lo gestionaremos con padding en el body para el responsive */
+            overflow: hidden; /* Evita barras de desplazamiento */
+            position: relative; /* Importante para que los hijos absolutos se posicionen respecto a él */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            box-sizing: border-box; /* Incluye padding y border en el ancho/alto */
+            /* Añadimos un padding horizontal general para que el contenido no choque con los bordes */
+            padding: 0 15px; /* Por ejemplo, 15px a cada lado */
+
+            /* Cursor personalizado en forma de corazón (SVG data URI) */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="%23e91e63" stroke="%23e91e63" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>') 15 15, auto;
+            
+            /* Fondo de Pantalla: Asegúrate que 'fondo.jpeg' esté en la misma carpeta que este archivo HTML. */
+            background-image: url('fondo.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* ========================================= */
+        /* --- 2. TÍTULO PRINCIPAL --- */
+        /* ========================================= */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.8em;
+            margin-bottom: 30px;
+            color: #e91e63;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            animation: pulse 2.5s infinite alternate, animeGlitter 1.8s infinite alternate;
+            z-index: 20; /* Capa alta para que esté encima */
+            position: relative; /* Necesario para que z-index funcione en algunos contextos */
+            text-align: center;
+            padding: 0 20px;
+            line-height: 1.1;
+            letter-spacing: 0.06em;
+        }
+
+        /* ========================================= */
+        /* --- 3. ÁREA INTERACTIVA Y BOTONES --- */
+        /* ========================================= */
+        #interactive-area {
+            margin-top: 50px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.75);
+            padding: 40px 50px;
+            border-radius: 30px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.4);
+            z-index: 10; /* Capa media */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 90%; /* Se mantiene para pantallas más grandes */
+            width: auto;
+        }
+
+        #interactive-area p {
+            font-size: 1.3em;
+            color: #512da8;
+            margin-bottom: 35px;
+            text-shadow: 0.8px 0.8px 1.5px rgba(0,0,0,0.15);
+        }
+
+        .button {
+            background-color: #f06292;
+            border: none;
+            color: white;
+            padding: 18px 45px;
+            font-size: 1.6em;
+            margin: 15px 8px;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
+            font-weight: bold;
+            letter-spacing: 0.04em;
+        }
+
+        .button:hover {
+            background-color: #e91e63;
+            transform: translateY(-7px);
+            box-shadow: 6px 6px 18px rgba(0,0,0,0.5);
+        }
+
+        /* ========================================= */
+        /* --- 4. BURBUJAS FLOTANTES (MODIFICADO) --- */
+        /* ========================================= */
+        .bubble {
+            position: absolute;
+            /* Nuevo diseño con gradiente más vibrante y borde sutil */
+            background: linear-gradient(135deg, rgba(255, 204, 229, 0.98), rgba(255, 153, 204, 0.9)); /* Rosas más brillantes */
+            border-radius: 50%;
+            padding: 10px 15px;
+            font-size: 1.05em;
+            font-family: 'Montserrat', sans-serif;
+            color: #880e4f; /* Color de texto más oscuro y contrastante */
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: floatUp 14s infinite ease-in-out forwards;
+            opacity: 0;
+            /* Sombra más pronunciada y sutil brillo interno */
+            box-shadow: 0px 6px 18px rgba(0,0,0,0.25), inset 0 0 10px rgba(255,255,255,0.7);
+            border: 2px solid rgba(255, 255, 255, 0.9); /* Borde más visible */
+            box-sizing: border-box;
+            word-wrap: break-word;
+            white-space: normal;
+            line-height: 1.3;
+            backdrop-filter: blur(3px); /* Ligero desenfoque */
+            max-width: 150px;
+            transition: transform 0.2s ease, background-color 0.3s ease; /* Añadida transición para hover */
+            z-index: 5;
+            font-weight: 600; /* Texto un poco más grueso */
+        }
+
+        .bubble:hover {
+            transform: scale(1.15) translateY(-5px); /* Efecto de "pop" más notable al pasar el ratón */
+            background: linear-gradient(135deg, rgba(255, 179, 217, 1), rgba(255, 102, 178, 0.95)); /* Cambio de color al hover */
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.35), inset 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        /* ========================================= */
+        /* --- 5. PÉTALOS DE CEREZO --- */
+        /* ========================================= */
+        .cherry-petal {
+            position: absolute; /* POSICIONAMIENTO ABSOLUTO RESPECTO AL BODY (que es 100vw/100vh) */
+            background-color: #f48fb1; /* Rosa claro */
+            border-radius: 60% 40% 60% 40% / 70% 30% 70% 30%; /* Forma de pétalo */
+            width: 16px; /* Tamaño del pétalo */
+            height: 11px;
+            opacity: 0.6; /* Transparencia */
+            pointer-events: none; /* No interfiere con el clic */
+            animation: fallLikePetal linear infinite; /* Animación de caída */
+            z-index: -1; /* Capa de fondo, detrás de todo el contenido principal, pero delante del background-image del body */
+            transform-origin: 50% 50%; /* Origen de la rotación */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Sombra sutil */
+        }
+
+        /* ========================================= */
+        /* --- 6. EXPLOSIÓN DE CORAZONES (Clic) --- */
+        /* ========================================= */
+        .heart-explosion {
+            position: absolute;
+            color: #f06292;
+            font-size: 2.5em;
+            animation: explode 0.7s forwards;
+            pointer-events: none;
+            z-index: 100; /* Capa superior para que los corazones siempre se vean */
+        }
+
+        /* ========================================= */
+        /* --- 7. CONTENEDOR DEL LIBRO SECRETO --- */
+        /* ========================================= */
+        #book-container {
+            position: fixed; /* Fijo para que ocupe toda la ventana siempre */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente (fallback para backdrop-filter) */
+            backdrop-filter: blur(8px); /* Efecto de desenfoque en el fondo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* La capa más alta para cubrir todo */
+            visibility: hidden; /* Oculto por defecto */
+            opacity: 0;
+            transition: visibility 0.5s, opacity 0.5s ease-in-out; /* Transición suave al aparecer */
+        }
+
+        #book {
+            position: relative;
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle at center, #fff, #fce4ec); /* Degradado suave para el fondo del libro */
+            border: 15px solid #880e4f; /* Borde grueso y oscuro del libro */
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.15); /* Sombra para profundidad */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            transform-origin: center center;
+            transform: scale(0.1) rotateY(90deg); /* Animación inicial de apertura */
+            transition: transform 1.2s ease-in-out;
+            font-family: 'Dancing Script', cursive;
+            color: #512da8;
+            overflow: hidden; /* Oculta el contenido que se desborde */
+        }
+
+        #book.open {
+            transform: scale(1) rotateY(0deg); /* Estado abierto del libro */
+        }
+
+        #book-content {
+            font-size: 1.8em;
+            line-height: 1.8;
+            text-shadow: 0.6px 0.6px 1.2px rgba(0,0,0,0.1);
+            letter-spacing: 0.07em;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            flex-grow: 1;
+            text-align: center;
+            overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+        }
+
+        #book-content pre {
+            margin: 0;
+            white-space: pre-wrap; /* Mantiene saltos de línea y espacios */
+            word-wrap: break-word; /* Rompe palabras largas */
+            text-align: center;
+            padding-bottom: 30px;
+            max-height: 100%;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* Scrollbar personalizado para WebKit browsers (Chrome, Safari) */
+        #book-content::-webkit-scrollbar {
+            width: 12px;
+        }
+        #book-content::-webkit-scrollbar-track {
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+        #book-content::-webkit-scrollbar-thumb {
+            background: #f06292;
+            border-radius: 10px;
+        }
+        #book-content::-webkit-scrollbar-thumb:hover {
+            background: #e91e63;
+        }
+
+        /* Botón de cierre del libro */
+        #close-book {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f06292;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.9em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #close-book:hover {
+            background-color: #e91e63;
+            transform: scale(1.15);
+        }
+
+        /* ========================================= */
+        /* --- 8. ANIMACIONES CSS --- */
+        /* ========================================= */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.04); } /* Ligera pulsación del título */
+        }
+
+        @keyframes animeGlitter {
+            0% { text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4); }
+            100% { text-shadow: 2px 2px 10px rgba(233, 30, 99, 0.6); } /* Efecto de brillo en el título */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(var(--translateX)); opacity: 0; }
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0.5) translateY(0); opacity: 1; }
+            50% { transform: scale(1.8) translateY(-30px); opacity: 0.8; }
+            100% { transform: scale(2.5) translateY(-70px); opacity: 0; }
+        }
+
+        /* Animación para pétalos: Caída con oscilación lateral */
+        @keyframes fallLikePetal {
+            0% {
+                /* Inicia desde 10vh por encima de la ventana, con su posición horizontal inicial */
+                transform: translate(calc(var(--x-inicial) * 1vw), -10vh) rotate(calc(var(--r-inicial) * 1deg));
+                opacity: 0; /* Empieza invisible */
+            }
+            10% {
+                opacity: 0.6; /* Aparece rápidamente */
+            }
+            100% {
+                /* Termina 10vh por debajo de la ventana, con su posición horizontal final y girando */
+                transform: translate(calc(var(--x-final) * 1vw), 110vh) rotate(calc(var(--r-final) * 1deg) + 720deg);
+                opacity: 0; /* Desaparece al final */
+            }
+        }
+
+        /* ========================================= */
+        /* --- 9. MEDIA QUERIES (RESPONSIVO) --- */
+        /* ========================================= */
+
+        /* Extra Small devices (phones, 480px and down) */
+        @media (max-width: 480px) {
+            body {
+                padding: 0 10px; /* Un poco menos padding para pantallas muy pequeñas */
+            }
+            h1 {
+                font-size: 2.2em;
+                padding: 0 5px;
+            }
+            .bubble {
+                font-size: 0.7em;
+                padding: 6px 10px;
+                max-width: 100px;
+                animation-duration: 20s;
+            }
+            #interactive-area {
+                padding: 20px 20px; /* Ajuste el padding interno para que no se apriete */
+                margin-top: 15px;
+                max-width: 98%; /* Esto permite que el padding del body actúe como margen */
+            }
+            #interactive-area p {
+                font-size: 0.9em;
+                margin-bottom: 20px;
+            }
+            .button {
+                font-size: 1.0em;
+                padding: 10px 20px;
+                margin: 8px 4px;
+            }
+            #book {
+                width: 95vw;
+                height: 90vh;
+                padding: 15px;
+                border-width: 6px;
+            }
+            #book-content {
+                font-size: 1.0em;
+                padding: 0 10px;
+            }
+            #close-book {
+                width: 30px;
+                height: 30px;
+                font-size: 1.3em;
+                top: 10px;
+                right: 10px;
+            }
+            .cherry-petal {
+                width: 10px;
+                height: 7px;
+                opacity: 0.5;
+            }
+        }
+
+        /* Small devices (portrait tablets and large phones, 481px to 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                padding: 0 20px; /* Padding para tablets/móviles grandes */
+            }
+            h1 {
+                font-size: 3.2em;
+                padding: 0 10px;
+            }
+            .bubble {
+                font-size: 0.9em;
+                padding: 8px 12px;
+                max-width: 130px;
+                animation-duration: 18s;
+            }
+            #interactive-area {
+                padding: 25px 30px; /* Ajuste el padding interno */
+                margin-top: 30px;
+                max-width: 95%; /* Se mantiene para que el padding del body actúe como margen */
+            }
+            #interactive-area p {
+                font-size: 1.1em;
+                margin-bottom: 25px;
+            }
+            .button {
+                font-size: 1.2em;
+                padding: 12px 28px;
+            }
+            #book {
+                width: 90vw;
+                height: 85vh;
+                padding: 25px;
+                border-width: 8px;
+            }
+            #book-content {
+                font-size: 1.3em;
+                padding: 0 15px;
+            }
+            #close-book {
+                width: 35px;
+                height: 35px;
+                font-size: 1.5em;
+                top: 15px;
+                right: 15px;
+            }
+            .cherry-petal {
+                width: 14px;
+                height: 9px;
+            }
+        }
+
+        /* Medium devices (laptops, 769px to 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                padding: 0 30px; /* Padding para laptops */
+            }
+            h1 {
+                font-size: 4.0em;
+            }
+            .bubble {
+                font-size: 1.0em;
+                padding: 10px 15px;
+                max-width: 140px;
+                animation-duration: 16s;
+            }
+            #interactive-area {
+                padding: 35px 40px; /* Ajuste el padding interno */
+                margin-top: 40px;
+                max-width: 85%;
+            }
+            #interactive-area p {
+                font-size: 1.2em;
+            }
+            .button {
+                font-size: 1.4em;
+                padding: 16px 35px;
+            }
+            #book {
+                width: 80vw;
+                height: 75vh;
+                padding: 30px;
+                border-width: 10px;
+            }
+            #book-content {
+                font-size: 1.6em;
+            }
+            #close-book {
+                width: 40px;
+                height: 40px;
+                font-size: 1.7em;
+            }
+        }
+
+        /* Large devices (desktops, 1025px to 1440px) */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            body {
+                padding: 0 40px; /* Padding para desktops grandes */
+            }
+            h1 {
+                font-size: 4.5em;
+            }
+            .bubble {
+                animation-duration: 14s;
+            }
+            #interactive-area {
+                max-width: 80%;
+            }
+            #book {
+                width: 70vw;
+                height: 70vh;
+            }
+        }
+
+        /* Extra Large devices (large desktops, 1441px and up) */
+        /* Los estilos por defecto ya están optimizados para estas pantallas */
+    </style>
+</head>
+<body>
+    <audio id="background-music" src="Viernes 13 - Marcos Menchaca.mp3" loop></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let numberOfPetals = 70; // Cantidad base de pétalos
+
+            // Ajusta la cantidad de pétalos según el tamaño de la pantalla
+            if (window.innerWidth <= 480) {
+                numberOfPetals = 40; // Menos pétalos en móviles pequeños
+            } else if (window.innerWidth <= 768) {
+                numberOfPetals = 55; // Cantidad media en móviles grandes/tablets
+            } else if (window.innerWidth > 1440) {
+                numberOfPetals = 90; // Más pétalos en pantallas extra grandes
+            }
+
+            for (let i = 0; i < numberOfPetals; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('cherry-petal');
+
+                // RANGO DE POSICIONAMIENTO HORIZONTAL AMPLIADO: -20vw a 120vw
+                // Esto asegura que los pétalos se generen MÁS ALLÁ de los bordes visibles de la pantalla
+                // para que siempre parezcan venir "desde fuera" y cubrir todo el ancho.
+                const initialLeft = Math.random() * 140 - 20; // 140 para un rango de 140%, y -20 para empezar 20% antes del borde izq.
+                petal.style.left = `${initialLeft}vw`;
+
+                // Deriva horizontal aleatoria para un movimiento natural
+                const driftAmount = Math.random() * 40 - 20; // Entre -20vw y 20vw de deriva
+                petal.style.setProperty('--x-inicial', initialLeft);
+                petal.style.setProperty('--x-final', initialLeft + driftAmount);
+
+                // Rotación inicial y final aleatorias para que los pétalos giren al caer
+                const initialRotation = Math.random() * 360;
+                const finalRotation = initialRotation + (Math.random() * 720); // Giran hasta dos vueltas
+                petal.style.setProperty('--r-inicial', initialRotation);
+                petal.style.setProperty('--r-final', finalRotation);
+
+                // Duración de la animación para la velocidad de caída
+                const duration = Math.random() * 10 + 10; // Entre 10 y 20 segundos
+                petal.style.animationDuration = `${duration}s`;
+
+                // Retraso para que caigan escalonados y simular un flujo continuo
+                petal.style.animationDelay = `${Math.random() * 10}s`;
+
+                document.body.appendChild(petal);
+            }
+        });
+    </script>
+
+    <h1>¡Para mi hermosa Grachi, mi Viernes 13 de la Suerte! ✨💖</h1>
+
+    <div id="interactive-area">
+        <p>Hoy, en nuestro especial 'Viernes 13', quiero abrirte las puertas de un sentimiento que crece sin límites. Hay un mensaje esperando solo por ti, mi amor ✨💖.</p>
+        <button class="button" onclick="openBook()">¡Haz clic aquí, mi amor! 🥰</button>
+    </div>
+
+    <div id="book-container">
+        <div id="book">
+            <button id="close-book" onclick="closeBook()">✖</button>
+            <div id="book-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Frases para las burbujas flotantes
+        const frases = [
+            "Mi Grachi, mi universo. 🌌",
+            "Eres mi Parker, mi amor. 😉",
+            "Tu sonrisa ilumina mi vida. 😊",
+            "Viernes 13 contigo es suerte. 🍀❤️",
+            "Mi amor por ti es infinito. 🕸️",
+            "Mi musa, mi inspiración. 💖",
+            "Cada momento es mágico. ✨",
+            "La melodía más dulce.🎶",
+            "Gracias por ser tú. 🥰",
+            "Mi corazón te elige. 💕",
+            "Eres mi destino. ✨",
+            "Amo todo de ti. 😍",
+            "Contigo, el amor es aventura. 🚀",
+            "Dueña de mis sueños. 💭",
+            "Parker ama a Grachi. ❤️‍🔥"
+        ];
+
+        // Función para crear burbujas aleatorias
+        function crearBurbuja() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.textContent = frases[Math.floor(Math.random() * frases.length)];
+            document.body.appendChild(bubble);
+
+            // Ajusta el tamaño de la burbuja según el tamaño de la pantalla
+            const minSizeBase = 90;
+            const maxSizeBase = 160;
+            let currentViewportWidth = window.innerWidth;
+            let minSize = minSizeBase;
+            let maxSize = maxSizeBase;
+
+            if (currentViewportWidth <= 480) { // Móviles muy pequeños
+                minSize = 60;
+                maxSize = 100;
+            } else if (currentViewportWidth <= 768) { // Móviles grandes/Tablets pequeñas
+                minSize = 75;
+                maxSize = 120;
+            } else if (currentViewportWidth <= 1024) { // Tablets/Laptops pequeñas
+                minSize = 85;
+                maxSize = 140;
+            }
+            let size = Math.random() * (maxSize - minSize) + minSize;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+
+            // Posición aleatoria horizontal y duración de la animación
+            const randomLeft = Math.random() * (100 - (size / currentViewportWidth * 100) - 5);
+            bubble.style.left = `${randomLeft}vw`;
+            
+            // Ajustar duración de animación de burbujas según el tamaño de la pantalla
+            let bubbleAnimationDuration;
+            if (currentViewportWidth <= 480) {
+                bubbleAnimationDuration = Math.random() * 8 + 15; // Más lento en móvil
+            } else if (currentViewportWidth <= 768) {
+                bubbleAnimationDuration = Math.random() * 8 + 12; // Un poco más lento en tablets
+            } else {
+                bubbleAnimationDuration = Math.random() * 10 + 10; // Rango normal en escritorio
+            }
+            bubble.style.animationDuration = `${bubbleAnimationDuration}s`;
+            
+            bubble.style.animationDelay = `${Math.random() * 5}s`; // Retraso para que aparezcan escalonadas
+            bubble.style.setProperty('--translateX', `${Math.random() * 100 - 50}px`); // Desplazamiento horizontal para la animación de flotar
+        }
+
+        // --- INICIO DE BURBUJAS AL CARGAR LA PÁGINA (MODIFICADO) ---
+        // Lógica para generar burbujas de forma continua, ajustada por tamaño de pantalla
+        window.addEventListener('load', () => { // Cambiado de DOMContentLoaded a load para asegurar que todo esté listo
+            let initialBubbleCount;
+            let bubbleInterval;
+
+            if (window.innerWidth <= 480) {
+                initialBubbleCount = 6;
+                bubbleInterval = 6000; // Genera una nueva burbuja cada 6 segundos en móviles pequeños
+            } else if (window.innerWidth <= 768) {
+                initialBubbleCount = 10;
+                bubbleInterval = 4000; // Cada 4 segundos en móviles grandes/tablets
+            } else {
+                initialBubbleCount = 15;
+                bubbleInterval = 3000; // Cada 3 segundos en escritorio
+            }
+
+            // Crear las burbujas iniciales con un pequeño retraso entre ellas
+            for (let i = 0; i < initialBubbleCount; i++) {
+                setTimeout(crearBurbuja, i * (bubbleInterval / initialBubbleCount)); // Espaciado inicial
+            }
+
+            // Luego, continuar creando burbujas a intervalos regulares
+            setInterval(crearBurbuja, bubbleInterval);
+
+            // Asegura que la música tenga un volumen predeterminado al cargar la página
+            const music = document.getElementById('background-music');
+            music.volume = 0.5; // Ajusta el volumen (0.0 a 1.0)
+        });
+        // --- FIN DE MODIFICACIÓN DE INICIO DE BURBUJAS ---
+
+
+        const bookContainer = document.getElementById('book-container');
+        const book = document.getElementById('book');
+        const bookContent = document.getElementById('book-content');
+
+        // Función para abrir el libro y mostrar el mensaje
+        function openBook() {
+            // Generar la fecha actual de forma dinámica y localizada en Lunahuaná
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            // Obtenemos la fecha actual en Lunahuaná (Lima, Perú)
+            const nowInLima = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Lima"}));
+            const formattedDate = nowInLima.toLocaleDateString('es-ES', options);
+
+            // Contenido HTML del mensaje del libro, usando <pre> para mantener el formato
+            const messageHtml = `
+<pre>
+Mi hermosa Grachi,
+
+En cada latido de mi corazón, encuentro tu nombre.
+Eres la melodía que siempre quise escuchar,
+la calma en mi tormenta y la alegría de cada amanecer.
+
+Tu presencia ha llenado mi mundo con un color y una luz indescriptibles.
+Cada risa compartida, cada mirada, cada instante contigo,
+es un tesoro que guardo con un amor inmenso.
+
+Gracias por ser mi inspiración, mi apoyo incondicional y mi hogar.
+Prometo amarte, cuidarte y valorarte hoy y cada uno de nuestros mañanas.
+
+Con todo mi amor y gratitud,
+Tu eterno Parker ❤️
+
+${formattedDate}
+</pre>
+            `;
+
+            bookContent.innerHTML = messageHtml; // Inserta el mensaje en el libro
+            bookContainer.style.visibility = 'visible';
+            bookContainer.style.opacity = 1;
+            book.classList.add('open'); // Agrega la clase para la animación de apertura
+
+            // Reproduce la música al abrir el libro
+            const music = document.getElementById('background-music');
+            if (music.paused) {
+                music.play().catch(error => {
+                    console.log("Error al intentar reproducir la música:", error);
+                    // Si hay un error, a menudo es porque el navegador requiere interacción del usuario
+                    // antes de reproducir audio. En este caso, el clic del botón ya cumple esa interacción.
+                });
+            }
+        }
+
+        // Función para cerrar el libro
+        function closeBook() {
+            book.classList.remove('open'); // Quita la clase de apertura para la animación inversa
+            bookContainer.style.opacity = 0; // Inicia el desvanecimiento del contenedor
+            // Oculta completamente el contenedor después de que la transición termine para liberar recursos
+            bookContainer.addEventListener('transitionend', () => {
+                bookContainer.style.visibility = 'hidden';
+            }, { once: true }); // El { once: true } asegura que el evento solo se dispare una vez
+        }
+
+        // Efecto de explosión de corazones al hacer clic en cualquier parte del body
+        document.body.addEventListener('click', function(event) {
+            // No activar el efecto de corazón si se hizo clic dentro del contenedor del libro
+            // Esto evita que los corazones aparezcan al interactuar con el libro abierto
+            if (bookContainer.contains(event.target) && bookContainer.style.visibility === 'visible') {
+                return; 
+            }
+
+            const heart = document.createElement('span');
+            heart.classList.add('heart-explosion');
+            heart.textContent = '❤️'; // El corazón en sí
+            document.body.appendChild(heart);
+
+            heart.style.left = `${event.clientX}px`; // Posición X del clic
+            heart.style.top = `${event.clientY}px`; // Posición Y del clic
+
+            // Elimina el corazón después de que su animación haya terminado
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        });
+    </script>
+</body>
+</html>
